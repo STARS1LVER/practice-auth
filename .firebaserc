@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "auth-practice-4010f": {
+      "hosting": {
+        "practice-auth": [
+          "auth-practice-4010f"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "auth-practice-4010f"
+  }
+}
