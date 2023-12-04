@@ -2,6 +2,9 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ErrorMessageComponent } from '../error-message/error-message.component';
+import { AuthService } from '../../services/auth.service';
+import { Observable } from 'rxjs';
 
 // - Creamos un tipo de dato
 const actionType = {
@@ -22,7 +25,7 @@ type ActionType = keyof typeof actionType;
 @Component({
   selector: 'app-auth-form',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, ErrorMessageComponent],
   templateUrl: './auth-form.component.html',
   styleUrls: ['./auth-form.component.css']
 })
@@ -33,12 +36,18 @@ export class AuthFormComponent implements OnInit {
 
   public authForm!: FormGroup;
   public title!: string;
+  // esta propiedad tendra informacion de nuestro usuario
+  public user$!: Observable<any>
+
 
   // * Inyectamos el formBuilder
   // private formBuilder = Inject(FormBuilder)
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private authService: AuthService,
+    private formBuilder: FormBuilder) { }
+
   // * Con el readonly declaramos una propiedad que su valor no va a cambiar
-  private readonly emailPattern = ''
+  private readonly emailPattern =  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
   ngOnInit(): void {
     // * le damos el valor al titulo dependiendo del valor del action
@@ -50,6 +59,8 @@ export class AuthFormComponent implements OnInit {
 
     // * Iniciamos el formulario:
     this.initForm()
+
+    this.user$ = this.authService.userState$
   }
 
 
@@ -59,8 +70,8 @@ export class AuthFormComponent implements OnInit {
   public onSubmit() : void {
     const {email, password} = this.authForm.value;
     this.action === actionType.signIn.action
-    ? 'signIn'
-    : 'signUp'
+    ? this.authService.signIn(email, password)
+    : this.authService.signUp(email, password)
 
   }
 
@@ -75,7 +86,7 @@ export class AuthFormComponent implements OnInit {
   }
 
   public signInGoogle(): void {
-    //TODO
+    this.authService.signInGoogle()
   }
 
   /**

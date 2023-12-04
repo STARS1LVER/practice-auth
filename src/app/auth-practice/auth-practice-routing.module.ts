@@ -7,6 +7,7 @@ import { ProfilePageComponent } from './pages/profile-page/profile-page.componen
 import { ForgoutPasswordPageComponent } from './pages/forgout-password-page/forgout-password-page.component';
 import { EmailVerificationPageComponent } from './pages/email-verification-page/email-verification-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
+import { authGuard } from './guards/auth/auth.guard';
 
 
 const routes: Routes = [
@@ -14,10 +15,10 @@ const routes: Routes = [
     path:'',
     component: LayoutPageComponent,
     children: [
-      {  path: 'login', component: LoginPageComponent },
-      {  path: 'register', component: RegisterPageComponent },
-      {  path: 'profile', component: ProfilePageComponent },
+      {  path: 'login', component: LoginPageComponent, canActivate: [authGuard] },
+      {  path: 'register', component: RegisterPageComponent, canActivate: [authGuard] },
       {  path: 'home', component: HomePageComponent},
+      {  path: 'profile', component: ProfilePageComponent },
       {  path: 'forgout', component: ForgoutPasswordPageComponent },
       {  path: 'verify', component: EmailVerificationPageComponent },
       {  path: '**', component: LoginPageComponent },

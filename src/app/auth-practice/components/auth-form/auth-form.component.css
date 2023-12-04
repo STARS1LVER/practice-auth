@@ -1,0 +1,4 @@
+.invalid{
+  /* - con apply usamos todas los estilos de tailwinds css */
+  @apply text-red-500 border-red-500 placeholder-red-500
+}

@@ -31,7 +31,8 @@ import { AuthFormComponent } from './components/auth-form/auth-form.component';
     CommonModule,
     AuthPracticeRoutingModule,
     ReactiveFormsModule,
-    AuthFormComponent
+    AuthFormComponent,
+
   ]
 })
 export class AuthPracticeModule { }
