@@ -14,6 +14,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthFormComponent } from './components/auth-form/auth-form.component';
+import { ErrorMessageComponent } from './components/error-message/error-message.component';
 
 
 
@@ -32,6 +33,7 @@ import { AuthFormComponent } from './components/auth-form/auth-form.component';
     AuthPracticeRoutingModule,
     ReactiveFormsModule,
     AuthFormComponent,
+    ErrorMessageComponent
 
   ]
 })

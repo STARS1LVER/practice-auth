@@ -6,7 +6,7 @@ import { take, tap } from 'rxjs';
 
 
 // - Realizaremos un guard, y verificams si esta logado
-export const authGuard = () => {
+export const onlyLoginGuard = () => {
 
   const autService = inject(AuthService)
   const router = inject(Router)
@@ -15,7 +15,7 @@ export const authGuard = () => {
     // ! con el stake solo observamos una sola vez el estado de autenticacion y luego dejara de observar cambios
     take(1),
     tap((isLoggedIn) => (
-      !!isLoggedIn ? router.navigate(['/auth/login']) : true))
+      !!isLoggedIn ?  true: router.navigate(['/auth/login'])))
 
   )
 };

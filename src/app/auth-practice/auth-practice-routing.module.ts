@@ -8,6 +8,7 @@ import { ForgoutPasswordPageComponent } from './pages/forgout-password-page/forg
 import { EmailVerificationPageComponent } from './pages/email-verification-page/email-verification-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { authGuard } from './guards/auth/auth.guard';
+import { onlyLoginGuard } from './guards/auth/only-login.guard';
 
 
 const routes: Routes = [
@@ -18,7 +19,7 @@ const routes: Routes = [
       {  path: 'login', component: LoginPageComponent, canActivate: [authGuard] },
       {  path: 'register', component: RegisterPageComponent, canActivate: [authGuard] },
       {  path: 'home', component: HomePageComponent},
-      {  path: 'profile', component: ProfilePageComponent },
+      {  path: 'profile', component: ProfilePageComponent, canActivate:[onlyLoginGuard] },
       {  path: 'forgout', component: ForgoutPasswordPageComponent },
       {  path: 'verify', component: EmailVerificationPageComponent },
       {  path: '**', component: LoginPageComponent },

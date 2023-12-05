@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth, authState } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { GoogleAuthProvider, User, UserCredential, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signInWithRedirect } from 'firebase/auth';
+import { GoogleAuthProvider, User, UserCredential, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signInWithRedirect, sendPasswordResetEmail } from 'firebase/auth';
 import { Observable, retry } from 'rxjs';
 
 interface ErrorsSignUp {
@@ -22,7 +22,6 @@ export class AuthService {
   private readonly googleProvider = new GoogleAuthProvider()
 
   constructor() {
-    // this.signOut()
   }
 
   // Se utiliza el signo dolar para indicar que sera un observable
@@ -77,7 +76,6 @@ export class AuthService {
     try {
       const {user} =  await signInWithEmailAndPassword(this.auth, email, password)
       this.checkUserIsVerify(user)
-      this.router.navigate(['/auth/home'])
 
 
     } catch (error) {
@@ -99,8 +97,18 @@ export class AuthService {
     }
   }
 
+
+  public async sendPasswordResetEmail(email: string): Promise<void> {
+    const currentUser = {};
+    try {
+      await sendPasswordResetEmail(this.auth, email)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   private checkUserIsVerify(user: User): void {
-    const route = user.emailVerified ? '/auth/home' : '/auth/verify'
+    const route = user.emailVerified ? '/auth/profile' : '/auth/verify'
     this.router.navigate([route])
 
   }
